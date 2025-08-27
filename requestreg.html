@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation App - Register</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Body Background */
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 3D Form Styling */
+        #registrationPage {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 3D Input Fields */
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            transform: scale(1.05);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+
+        /* 3D Button Effect */
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #ff9800;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sliding Animation */
+        .slide-out {
+            animation: slide3D 0.8s ease-out forwards;
+        }
+
+        @keyframes slide3D {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-50px) scale(1.1);
+                box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            100% {
+                transform: translateY(-100vh) scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        /* Toggle Password Checkbox */
+        label {
+            color: white;
+            font-size: 14px;
+            display: block;
+            margin: 10px 0;
+        }
+
+        /* Loading Indicator */
+        #loading {
+            display: none;
+            color: #fff;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Registration Page -->
+        <div id="registrationPage">
+            <h2>Register</h2>
+            <form id="registerForm">
+                <input type="text" id="regName" name="name" placeholder="Full Name" required>
+                <input type="email" id="regEmail" name="email" placeholder="Email Address" required>
+                <input type="text" id="regPhone" name="phone" placeholder="Phone Number" required maxlength="10">
+                <input type="password" id="regPassword" name="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                
+                <!-- Show/Hide Password Toggle -->
+                <label>
+                    <input type="checkbox" id="togglePassword"> Show Password
+                </label>
+                
+                <button type="submit" id="registerButton">Register</button>
+                <div id="loading">Registering...</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const registerButton = document.getElementById("registerButton");
+            registerButton.disabled = true; // Disable button to prevent multiple clicks
+
+            const formData = new FormData(this);
+            const password = document.getElementById("regPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const phone = document.getElementById("regPhone").value;
+            const email = document.getElementById("regEmail").value;
+
+            // Email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address!");
+                registerButton.disabled = false;
+                return;
+            }
+
+            // Password confirmation check
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                registerButton.disabled = false;
+                return;
+            }
+
+            // Phone number validation (must be exactly 10 digits)
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Phone number must be exactly 10 digits!");
+                registerButton.disabled = false;
+                return;
+            }
+
+            // Show loading indicator
+            document.getElementById("loading").style.display = "block";
+
+            // Send data to register.php
+            fetch("http://localhost/Donation_App/register.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json()) // Expect JSON response
+            .then(data => {
+                console.log("Server Response:", data);
+                document.getElementById("loading").style.display = "none";
+
+                if (data.status === "success") {
+                    alert(data.message);
+                    registerButton.classList.add("slide-out");
+
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 1000);
+                } else {
+                    alert("Registration failed: " + data.message);
+                    registerButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error("Fetch Error:", error);
+                alert("An error occurred.");
+                document.getElementById("loading").style.display = "none";
+                registerButton.disabled = false;
+            });
+        });
+
+        document.getElementById("togglePassword").addEventListener("change", function() {
+            const passwordField = document.getElementById("regPassword");
+            const confirmPasswordField = document.getElementById("confirmPassword");
+            const type = this.checked ? "text" : "password";
+            passwordField.type = type;
+            confirmPasswordField.type = type;
+        });
+    </script>
+</body>
+</html>

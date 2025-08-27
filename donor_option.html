@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Options</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Notification Button Styling */
+        #show-notifications {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #1067a5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #show-notifications:hover {
+            background-color: #02263b;
+        }
+
+        /* Notification List Container */
+        #notifications-container {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            width: 300px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgb(137, 93, 195);
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <ul class="nav">
+            <li>
+                <a href="trust.html" style="font-size: 40px; font-weight: bold; color: black; text-decoration: none;">
+                    Click here to donate for Trust...!!!
+                </a>
+            </li>
+        </ul>
+
+        <!-- Heading -->
+        <h1>✨ Click on the images below to donate to your preferred location! 🏠💖</h1>
+        <h2>Choose Donation Option</h2>
+        <div class="donor-option-container">
+            <div class="donor-option">
+                <button class="food" onclick="showDonationPage('food')"><span>Food</span></button>
+            </div>
+            <div class="donor-option">
+                <button class="clothes" onclick="showDonationPage('clothes')"><span>Clothes</span></button>
+            </div>
+            <div class="donor-option">
+                <button class="funds" onclick="showDonationPage('funds')"><span>Funds</span></button>
+            </div>
+        </div>
+        <script>
+            function showDonationPage(type) {
+                window.location.href = `donor_form.html?donation_type=${type}`;
+            }
+            </script>
+
+        <!-- Back Button -->
+        <button class="back-button" onclick="window.location.href='login.html'">Back</button>
+    </div>
+
+    <!-- Notification Button -->
+    <button id="show-notifications"> 🔔 Notifications</button>
+
+    <!-- Notification List -->
+    <div id="notifications-container">
+        <h2>Notifications</h2>
+        <ul id="notification-list"></ul>
+    </div>
+
+    <script>
+        document.getElementById("show-notifications").addEventListener("click", fetchNotifications);
+
+        function fetchNotifications() {
+            fetch("fetch_notifications.php")
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("notification-list");
+                    container.innerHTML = ""; 
+
+                    if (data.length === 0) {
+                        container.innerHTML = "<li>No new notifications</li>";
+                    } else {
+                        data.forEach(notification => {
+                            const li = document.createElement("li");
+                            li.setAttribute("data-id", notification.id);
+                            li.innerHTML = `
+                                <p>${notification.message}</p>
+                                <button onclick="donate(${notification.request_id})">Donate</button> 
+                                <button onclick="ignoreNotification(${notification.id})">Ignore</button>
+                            `;
+                            container.appendChild(li);
+                        });
+                    }
+
+                    document.getElementById("notifications-container").style.display = "block";
+                })
+                .catch(error => console.error("Error fetching notifications:", error));
+        }
+
+        function donate(requestId, notificationId) {
+    window.location.href = `donation_details.html?request_id=${requestId}`;
+    markAsRead(notificationId);
+}
+
+
+        function ignoreNotification(notificationId) {
+            fetch("ignore_notification.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "id=" + notificationId
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Notification ignored:", data);
+
+                // Remove notification from UI
+                document.querySelector(`li[data-id='${notificationId}']`).remove();
+
+                // Hide container if empty
+                if (document.getElementById("notification-list").children.length === 0) {
+                    document.getElementById("notifications-container").style.display = "none";
+                }
+            })
+            .catch(error => console.error("Error ignoring notification:", error));
+        }
+    </script>
+</body>
+</html>

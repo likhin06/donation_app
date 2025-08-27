@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Options</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body {
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; background: linear-gradient(135deg, #141e30, #243b55);
+        }
+        .container {
+            width: 50%; max-width: 400px; padding: 20px;
+            background: rgba(20, 9, 9, 0.8);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px; text-align: center;
+        }
+        input, button { padding: 8px; width: 100%; margin-bottom: 10px; }
+        button {
+            background: linear-gradient(135deg, #ff416c, #ff4b5c);
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+        }
+        </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select a Payment Method</h2>
+        <button onclick="window.location.href='upi_payment.html'">Pay via UPI</button>
+        <button onclick="window.location.href='card_payment.html'">Pay via Card</button>
+        <div >
+            <h2>Scan and pay</h2>
+            <img src="donation_qr_text.png" style="width: 150px; height: auto">
+        </div>
+        <button onclick="window.location.href='donation_details.html'">Back</button>
+    </div>
+</body>
+</html>

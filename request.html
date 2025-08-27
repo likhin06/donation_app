@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Donation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h2 style="color: black;">Request for Donation</h2>
+        
+        <form action="submit_request.php" method="POST">
+            <textarea name="requestReason" placeholder="Why do you need the donation?" required style="color: black;"></textarea>
+            <input type="text" name="requestAddress" placeholder="Your Address" required style="color: black;">
+            
+            <div>
+                <label style="color: black;"><input type="checkbox" name="donationType[]" value="Food"> Food</label>
+                <label style="color: black;"><input type="checkbox" name="donationType[]" value="Funds"> Funds</label>
+                <label style="color: black;"><input type="checkbox" name="donationType[]" value="Clothes"> Clothes</label>
+            </div>
+            
+            <button type="submit" style="color: black;">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

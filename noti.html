@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Now</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: url('https://annamrita.org/wp-content/uploads/2023/02/Why-should-you-donate-to-the-education-of-impoverished-children_.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        h2 {
+            color: #333;
+        }
+        .donate-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .donate-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Do you want to donate?</h2>
+        <button class="donate-btn" onclick="donate()">Donate</button>
+    </div>
+
+    <script>
+        function donate() {
+            window.location.href = "donor_form.html";
+        }
+    </script>
+</body>
+</html>

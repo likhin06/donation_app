@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Form</title>
+    <!-- Internal CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            background-image: url('https://as2.ftcdn.net/jpg/02/26/69/17/1000_F_226691713_TZFnENpc0fUzgcI4hFgMIn1bzwwHNMth.jpg'); 
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #app {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        input[type="tel"] {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #confirmationMessage {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #28a745;
+        }
+
+        #backButton {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        #backButton:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        
+        <!-- Notification Icon -->
+        <div id="notification" class="notification" style="display: none;">
+            <span id="notification-message"></span>
+            <a href="noti.html" id="notification-link" style="display: none;">Click here to view</a>
+            <br>
+            <button onclick="ignoreRequest()">Ignore</button>
+        </div>
+
+        <h2>Donation Form</h2>
+        <form id="donationForm" action="http://localhost/Donation_App/donate.php" method="POST">
+
+            <!-- Hidden field to store the type of donation -->
+            <input type="hidden" id="donationType" name="donationType">
+
+            <label for="fromAddress">From Address</label>
+            <input type="text" id="fromAddress" name="fromAddress" placeholder="Enter your address" required>
+
+            <label for="toAddress">To Address</label>
+            <input type="text" id="toAddress" name="toAddress" placeholder="Enter delivery address" required>
+
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" required>
+
+            <label for="phoneNumber">Phone Number</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" 
+                   pattern="[0-9]{10}" title="Phone number must be exactly 10 digits" required>
+
+            <label for="donationImage">Upload Image</label>
+            <input type="file" id="donationImage" name="donationImage">
+
+            <button type="submit">Submit Donation</button>
+        </form>
+
+        <div id="confirmationMessage" style="display: none;">
+            <p>Thank you for your donation! The agents will contact you ASAP.</p>
+        </div>
+
+        <!-- Back Button -->
+        <a href="donor_option.html" id="backButton">Back</a>
+    </div>
+
+    <script>
+        document.getElementById('donationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+    
+            let phoneInput = document.getElementById('phoneNumber').value;
+    
+            if (!/^\d{10}$/.test(phoneInput)) {
+                alert("Phone number must be exactly 10 digits.");
+                return; // Stop form submission
+            }
+
+            let formData = new FormData(this);
+            formData.delete("donationImage"); // Ignore image file
+
+            fetch('http://localhost/Donation_App/donate.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    document.getElementById('donationForm').style.display = 'none';
+                    document.getElementById('confirmationMessage').style.display = 'block';
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while submitting the form.");
+            });
+        });
+    </script>
+</body>
+</html>

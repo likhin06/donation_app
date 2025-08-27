@@ -1,0 +1,193 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: url('https://marketplace.canva.com/EAGGejwC2ic/1/0/1600w/canva-pink-minimalist-background-instagram-post-3avqpaIo_ro.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    color: white;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+p {
+    color: black;
+}
+
+/* Styling for the <h1> tag */
+h1 {
+    color: black;
+    font-size: 2em;
+    text-align: center; /* Ensure the text is centered inside the <h1> */
+    margin-top: 100px;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #f8f9fa;
+}
+
+input, textarea, button {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+input[type="text"], input[type="password"], input[type="number"], textarea {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    transition: all 0.3s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus, textarea:focus {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: black;
+    outline: none;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+button:focus {
+    outline: none;
+}
+
+#registrationPage, #loginPage, #optionsPage, #donorOptionsPage, #donationPage, #requestPage, #notificationsPage {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    width: 90%;
+    max-width: 450px;
+}
+
+#notifications {
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Styles for Donor Options */
+.donor-option-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px 0;
+    width: 90%;
+    max-width: 900px; /* Adjust width for larger button size */
+}
+
+/* Individual donor option button styles */
+.donor-option {
+    width: 32%;  /* Adjust width to fit buttons in a row */
+    margin: 10px;
+    text-align: center;
+}
+
+.donor-option button {
+    width: 100%;
+    padding: 40px;  /* Increased padding for bigger buttons */
+    margin-top: 10px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
+    background-size: cover;
+    background-position: center;
+    height: 250px; /* Fixed height for consistency */
+}
+
+/* Buttons with Background Images */
+.donor-option button.food {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/018/991/627/non_2x/people-giving-a-donation-box-with-food-for-charity-and-solidarity-vector.jpg');
+}
+
+.donor-option button.clothes {
+    background-image: url('https://ofhsoupkitchen.org/wp-content/uploads/2019/09/donate-clothes-florida-2.jpg');
+}
+
+.donor-option button.funds {
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvNgr801AybHMoYABz7aKWWCBVPU2mRKZM7g&s');
+}
+
+/* Hover effect for buttons */
+.donor-option button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* Optional: Add background color for buttons if image is not loaded or for better readability */
+.donor-option button.food, .donor-option button.clothes, .donor-option button.funds {
+    background-color: rgba(0, 0, 0, 0.5); /* Darken button background */
+    color: white;
+    font-weight: bold;
+}
+
+/* Optional: Button Text Style */
+.donor-option button span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Notification Icon Styles */
+.notification {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: none; /* Hidden by default */
+    font-size: 1em;
+    z-index: 1000;
+}
+
+.notification span {
+    font-weight: bold;
+}
+
+/* Back Button */
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #218838;
+}

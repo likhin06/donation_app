@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate for Trust</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body {
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; background: linear-gradient(135deg, #141e30, #243b55);
+        }
+        .container {
+            width: 50%; max-width: 400px; padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px; text-align: center;
+        }
+        input, button { padding: 8px; width: 100%; margin-bottom: 10px; }
+        button {
+            background: linear-gradient(135deg, #ff416c, #ff4b5c);
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Donate for Trust</h2>
+        <form action="save_donation.php" method="POST">
+            <label>From Address:</label>
+            <input type="text" name="from_address" required>
+
+            <label>To Address:</label>
+            <input type="text" value="ATME Mysore" readonly>
+
+            <label>Donation Type:</label>
+            <input type="checkbox" id="fundCheckbox" name="donation_type" value="fund"> Fund💰
+            <input type="checkbox" id="clothesCheckbox" name="donation_type" value="clothes"> Clothes👕
+
+            <div id="fundAmountField" style="display: none;">
+                <label>Enter Amount:</label>
+                <input type="number" name="amount">
+            </div>
+
+            <div id="clothesPiecesField" style="display: none;">
+                <label>Number of Clothing Pieces:</label>
+                <input type="number" name="clothing_pieces">
+            </div>
+
+            <button type="submit">Submit</button>
+            <button class="back-button" onclick="window.location.href='donor_option.html'">Back</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("fundCheckbox").addEventListener("change", function() {
+            document.getElementById("fundAmountField").style.display = this.checked ? "block" : "none";
+        });
+        document.getElementById("clothesCheckbox").addEventListener("change", function() {
+            document.getElementById("clothesPiecesField").style.display = this.checked ? "block" : "none";
+        });
+    </script>
+
+</body>
+</html>
